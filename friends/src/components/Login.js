@@ -1,24 +1,30 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import {connect} from 'react-redux'
 
-const Login = () => {
+import {login} from '../actions'
 
+
+const Login = (props) => {
+    
     const [credentials, setCredentials] = useState({ username: "", password: "" })
 
-    const handleCredentials = event => setCredentials(...credentials, { [event.target.name]: event.target.value });
-    const login = event => {
+    const handleCredentials = event => setCredentials({...credentials,  [event.target.name]: event.target.value });
+    const dologin = event => {
         event.preventDefault();
+        // props.login(credentials)
         axios.post(`http://localhost:5000/api/login`, credentials)
-            .then(res =>{
-                console.log(res);
-                localStorage.setItem(`token`, res.data.payload);}
-                // history.push("/dashboard")
+            .then(res => {
+                console.log("res:",res,"props.history:",props.history);
+                props.history.push("/");
+                localStorage.setItem("token",res.data.payload)
+            }
             )
             .catch(err => console.error(err))
     }
     return (
         <div>
-            <form onSubmit={login}>
+            <form onSubmit={dologin}>
                 <input
                     type="text"
                     name="username"
@@ -39,5 +45,7 @@ const Login = () => {
         </div>
     )
 }
+const mapStateToProps=state=>{return{}}
 
-export default Login
+const mapDispatchToProps=(state)=>{return{login:state.login}}
+export default connect(mapStateToProps,mapDispatchToProps)(Login)
