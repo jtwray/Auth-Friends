@@ -17,25 +17,25 @@ const intitialState = {
 
 const friendsReducer = (state = intitialState, action) => {
     switch (action.type) {
-        case 'START': {
+        case START: {
             return { ...state, isLoading: true, }
         }
-        case 'ADD_FRIENDS_START': {
+        case ADD_FRIENDS_START: {
             return { ...state, isLoading: true, }
         }
-        case 'GET_FRIENDS_SUCCESS': {
+        case GET_FRIENDS_SUCCESS: {
             return { ...state, isLoading: false, allfriends: [...state.allfriends, action.payload] }
         }
-        case 'ADD_FRIEND_SUCCESS': {
+        case ADD_FRIEND_SUCCESS: {
             console.log('addfriend', action);
             return { ...state, isLoading: false, allfriends: [...state.allfriends, action.payload] }
         }
-        case 'LOGIN_SUCCESS': {
+        case LOGIN_SUCCESS: {
             localStorage.setItem(`token`, action.payload);
 
             return { ...state, isLoading: false, }
         }
-        case 'ERROR':
+        case ERROR:
             return {
                 ...state,
                 isError: true,
